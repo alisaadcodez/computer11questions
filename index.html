@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKUEB CS Question Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --bg4: #22222e;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f0f8;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+    --accent: #7c6af7;
+    --accent2: #a594ff;
+    --teal: #00d4aa;
+    --coral: #ff6b6b;
+    --amber: #ffc147;
+    --green: #4ade80;
+    --blue: #60a5fa;
+    --pink: #f472b6;
+    --r-col: #4ade80;
+    --u-col: #60a5fa;
+    --a-col: #f472b6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    padding: 2rem 2.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+  .header-left h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent2), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+  .header-left p {
+    font-size: 12px; color: var(--text3); margin-top: 2px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .header-stats {
+    display: flex; gap: 1.5rem;
+  }
+  .stat-pill {
+    font-size: 11px; font-family: 'JetBrains Mono', monospace;
+    padding: 4px 10px; border-radius: 20px;
+    background: var(--bg3); border: 1px solid var(--border2);
+    color: var(--text2);
+  }
+  .stat-pill span { color: var(--text); font-weight: 600; }
+
+  /* LAYOUT */
+  .app { display: flex; height: calc(100vh - 80px); }
+
+  /* SIDEBAR */
+  aside {
+    width: 300px; flex-shrink: 0;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg4) transparent;
+  }
+  .sidebar-section { padding: 1rem; }
+  .sidebar-label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text3); font-family: 'JetBrains Mono', monospace;
+    padding: 0.75rem 1rem 0.25rem;
+  }
+
+  /* FILTERS */
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 0.5rem 1rem; }
+  .filter-btn {
+    font-size: 11px; padding: 4px 10px; border-radius: 20px;
+    background: var(--bg3); border: 1px solid var(--border2);
+    color: var(--text2); cursor: pointer; transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filter-btn.r { background: rgba(74,222,128,0.15); border-color: rgba(74,222,128,0.3); color: var(--r-col); }
+  .filter-btn.r.active { background: var(--r-col); color: #0a0a0f; border-color: var(--r-col); }
+  .filter-btn.u { background: rgba(96,165,250,0.15); border-color: rgba(96,165,250,0.3); color: var(--u-col); }
+  .filter-btn.u.active { background: var(--u-col); color: #0a0a0f; border-color: var(--u-col); }
+  .filter-btn.a { background: rgba(244,114,182,0.15); border-color: rgba(244,114,182,0.3); color: var(--a-col); }
+  .filter-btn.a.active { background: var(--a-col); color: #0a0a0f; border-color: var(--a-col); }
+
+  /* TOPIC LIST */
+  .topic-item {
+    padding: 0.6rem 1rem;
+    cursor: pointer; transition: all 0.15s;
+    border-left: 2px solid transparent;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .topic-item:hover { background: var(--bg3); border-left-color: var(--border2); }
+  .topic-item.active { background: var(--bg3); border-left-color: var(--accent2); }
+  .topic-num {
+    font-size: 10px; font-family: 'JetBrains Mono', monospace;
+    color: var(--accent2); min-width: 28px; padding-top: 2px;
+  }
+  .topic-name { font-size: 12.5px; color: var(--text2); line-height: 1.4; }
+  .topic-item.active .topic-name { color: var(--text); }
+  .grade-divider {
+    padding: 0.5rem 1rem;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text3); font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-top: 0.5rem;
+  }
+  .grade-xi { color: var(--teal); }
+  .grade-xii { color: var(--coral); }
+
+  /* MAIN CONTENT */
+  main {
+    flex: 1; overflow-y: auto;
+    padding: 2rem;
+    scrollbar-width: thin; scrollbar-color: var(--bg4) transparent;
+  }
+
+  /* SEARCH */
+  .search-bar {
+    width: 100%; padding: 0.75rem 1rem;
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 10px; color: var(--text); font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px; outline: none; transition: border-color 0.2s;
+    margin-bottom: 1.5rem;
+  }
+  .search-bar::placeholder { color: var(--text3); }
+  .search-bar:focus { border-color: var(--accent); }
+
+  /* SLO CARD */
+  .slo-group { margin-bottom: 2rem; }
+  .slo-header {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .slo-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 4px 8px; border-radius: 6px;
+    background: rgba(124,106,247,0.15); color: var(--accent2);
+    border: 1px solid rgba(124,106,247,0.25);
+    white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  }
+  .slo-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .slo-cog {
+    margin-left: auto; flex-shrink: 0;
+    font-size: 10px; padding: 3px 8px; border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-top: 2px;
+  }
+  .cog-R { background: rgba(74,222,128,0.12); color: var(--r-col); border: 1px solid rgba(74,222,128,0.25); }
+  .cog-U { background: rgba(96,165,250,0.12); color: var(--u-col); border: 1px solid rgba(96,165,250,0.25); }
+  .cog-A { background: rgba(244,114,182,0.12); color: var(--a-col); border: 1px solid rgba(244,114,182,0.25); }
+
+  /* QUESTION CARDS */
+  .q-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+  }
+  .q-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+  .q-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .q-type {
+    font-size: 10px; font-family: 'JetBrains Mono', monospace;
+    padding: 2px 7px; border-radius: 4px;
+    display: inline-block; margin-bottom: 8px;
+  }
+  .qt-mcq { background: rgba(124,106,247,0.15); color: var(--accent2); }
+  .qt-crq { background: rgba(0,212,170,0.12); color: var(--teal); }
+  .qt-erq { background: rgba(255,193,71,0.12); color: var(--amber); }
+  .qt-prac { background: rgba(255,107,107,0.12); color: var(--coral); }
+  .q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+  .q-hint {
+    font-size: 11px; color: var(--text3); margin-top: 8px;
+    font-style: italic; border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+
+  /* TOPIC HEADER */
+  .topic-banner {
+    padding: 1.5rem 2rem; border-radius: 14px;
+    margin-bottom: 1.5rem;
+    background: var(--bg2); border: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+  .topic-banner h2 {
+    font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700;
+    color: var(--text); line-height: 1.3;
+  }
+  .topic-banner .tn { font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
+  .topic-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-badge {
+    font-size: 11px; padding: 3px 9px; border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid var(--border2); color: var(--text2);
+  }
+
+  /* WELCOME */
+  .welcome {
+    max-width: 600px; margin: 4rem auto; text-align: center;
+  }
+  .welcome h2 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+  .welcome p { color: var(--text2); font-size: 14px; line-height: 1.7; }
+  .cog-legend { display: flex; gap: 12px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+
+  /* ALL VIEW */
+  .all-header {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+  }
+  .all-header h2 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
+  .section-divider {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text3); font-family: 'JetBrains Mono', monospace;
+    padding: 0.75rem 0 0.5rem; margin-top: 0.5rem;
+  }
+  .hidden { display: none !important; }
+
+  /* SCROLL HINT */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>AKUEB CS Question Bank</h1>
+    <p>HSSC Grade XI–XII &nbsp;·&nbsp; Computer Science &nbsp;·&nbsp; 2025 Syllabus</p>
+  </div>
+  <div class="header-stats">
+    <div class="stat-pill">Topics: <span>15</span></div>
+    <div class="stat-pill">SLOs: <span id="total-slos">—</span></div>
+    <div class="stat-pill">Questions: <span id="total-qs">—</span></div>
+  </div>
+</header>
+
+<div class="app">
+  <aside id="sidebar">
+    <div class="sidebar-label">Filter by level</div>
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="setCogFilter('all')">All</button>
+      <button class="filter-btn r" onclick="setCogFilter('R')">R – Remember</button>
+      <button class="filter-btn u" onclick="setCogFilter('U')">U – Understand</button>
+      <button class="filter-btn a" onclick="setCogFilter('A')">A – Apply+</button>
+    </div>
+    <div class="sidebar-label">Filter by type</div>
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="setTypeFilter('all')">All</button>
+      <button class="filter-btn" onclick="setTypeFilter('MCQ')">MCQ</button>
+      <button class="filter-btn" onclick="setTypeFilter('CRQ')">CRQ</button>
+      <button class="filter-btn" onclick="setTypeFilter('ERQ')">ERQ</button>
+      <button class="filter-btn" onclick="setTypeFilter('Practical')">Practical</button>
+    </div>
+
+    <div class="grade-divider grade-xi">◆ Grade XI (Part I)</div>
+    <div id="nav-xi"></div>
+    <div class="grade-divider grade-xii">◆ Grade XII (Part II)</div>
+    <div id="nav-xii"></div>
+  </aside>
+
+  <main id="main-content">
+    <div class="welcome" id="welcome-screen">
+      <h2>Your Question Bank</h2>
+      <p>Select a topic from the sidebar to view all possible exam questions mapped to each SLO, organized by cognitive level. Filter by Remember, Understand, or Apply & Beyond — or by question type.</p>
+      <div class="cog-legend">
+        <span class="slo-cog cog-R">R – Remember</span>
+        <span class="slo-cog cog-U">U – Understand</span>
+        <span class="slo-cog cog-A">A – Apply &amp; Beyond</span>
+      </div>
+      <div class="cog-legend" style="margin-top:1rem;">
+        <span class="q-type qt-mcq">MCQ</span>
+        <span class="q-type qt-crq">CRQ</span>
+        <span class="q-type qt-erq">ERQ</span>
+        <span class="q-type qt-prac">Practical</span>
+      </div>
+    </div>
+    <div id="topic-view" class="hidden"></div>
+  </main>
+</div>
+
+<script>
+const DB = {
+  topics: [
+    {
+      num: "1", title: "Computing Systems", grade: "XI",
+      slos: [
+        { code: "1.1.1", text: "Differentiate between analog and digital signals", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which of the following best describes a digital signal?", hint: "Focus on discrete vs continuous nature." },
+            { type: "MCQ", text: "An analog signal is characterized by which property?", hint: "Think: continuous variation." },
+            { type: "CRQ", text: "Differentiate between analog and digital signals with one example each." },
+            { type: "ERQ", text: "Compare analog and digital signals in terms of representation, noise immunity, and application." }
+          ]
+        },
+        { code: "1.1.2", text: "Explain binary data representation using binary pulses (0/1, low/high, off/on)", cog: "U",
+          questions: [
+            { type: "MCQ", text: "In binary representation, a HIGH voltage pulse corresponds to which binary digit?" },
+            { type: "MCQ", text: "Which term is synonymous with '0' in binary pulse representation?" },
+            { type: "CRQ", text: "Explain how binary pulses are used to represent data in a digital computer." },
+            { type: "CRQ", text: "Why are only two states (0 and 1) used in digital computers?" }
+          ]
+        },
+        { code: "1.2.1", text: "Define digital logic, logic gates, logic circuits, and truth table", cog: "R",
+          questions: [
+            { type: "MCQ", text: "What is a truth table?" },
+            { type: "MCQ", text: "Which definition best describes a logic gate?" },
+            { type: "CRQ", text: "Define the terms: (a) digital logic, (b) logic gate, (c) truth table." }
+          ]
+        },
+        { code: "1.2.2", text: "Explain AND, OR, NOT, NAND, NOR, XOR, XNOR gates using truth tables", cog: "U",
+          questions: [
+            { type: "MCQ", text: "What is the output of a NAND gate when both inputs are 1?" },
+            { type: "MCQ", text: "An XOR gate outputs 1 when:" },
+            { type: "MCQ", text: "Which gate produces output 1 only when all inputs are 0?" },
+            { type: "CRQ", text: "Construct the truth table for a 2-input XOR gate and describe its behaviour." },
+            { type: "CRQ", text: "Write the truth table for a NAND gate and explain how it differs from an AND gate." },
+            { type: "ERQ", text: "Explain any four logic gates with their symbols, truth tables, and Boolean expressions." }
+          ]
+        },
+        { code: "1.2.3", text: "Identify logic gates from the truth table", cog: "U",
+          questions: [
+            { type: "MCQ", text: "A gate with output: 0,1,1,1 for inputs 00,01,10,11 is which gate?" },
+            { type: "CRQ", text: "Given a truth table with output 1,0,0,0 for all input combinations, identify the logic gate." },
+            { type: "CRQ", text: "Identify the gate from the truth table: inputs (0,0)→1, (0,1)→1, (1,0)→1, (1,1)→0." }
+          ]
+        },
+        { code: "1.2.4", text: "Explain the uses of logic gates in digital devices", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Logic gates are used in calculators primarily to perform which operations?" },
+            { type: "CRQ", text: "Describe two real-world applications of logic gates in digital devices." },
+            { type: "ERQ", text: "Discuss the role of logic gates in the functioning of a computer's ALU and memory." }
+          ]
+        },
+        { code: "1.2.5", text: "Represent logic circuits in the form of a truth table", cog: "A",
+          questions: [
+            { type: "MCQ", text: "For the Boolean expression F = A·B + C, how many rows appear in its truth table?" },
+            { type: "CRQ", text: "Construct a truth table for the circuit with expression: F = (A OR B) AND (NOT C)." },
+            { type: "ERQ", text: "A logic circuit implements F = A·(B + C̄). Draw its truth table and verify the output for all input combinations." },
+            { type: "Practical", text: "Using a logic simulator, build a circuit for F = AB + BC and verify against its truth table." }
+          ]
+        },
+        { code: "1.2.6", text: "Explain Boolean identities: Identity, Distributive, Associative, Commutative, Complement, De Morgan's, Absorption", cog: "U",
+          questions: [
+            { type: "MCQ", text: "According to De Morgan's Theorem, (A·B)' is equivalent to:" },
+            { type: "MCQ", text: "Which law states A + A·B = A?" },
+            { type: "MCQ", text: "The Distributive Law in Boolean algebra states:" },
+            { type: "CRQ", text: "State De Morgan's Theorem and verify it using a truth table for two variables." },
+            { type: "CRQ", text: "Apply the Absorption Law to simplify: A + AB." },
+            { type: "ERQ", text: "Using Boolean identities, simplify the expression F = A'B + AB' + AB and justify each step." }
+          ]
+        },
+        { code: "1.2.7", text: "Construct a logic circuit for a given real-life problem", cog: "A",
+          questions: [
+            { type: "ERQ", text: "A room alarm should activate when motion is detected (A=1) AND either door (B) or window (C) is open. Design the logic circuit and truth table." },
+            { type: "ERQ", text: "Design a voting circuit where the output is 1 if at least 2 of 3 voters agree." },
+            { type: "Practical", text: "Build and test a circuit for a 2-input majority function on a simulator." }
+          ]
+        },
+        { code: "1.3.1", text: "Simplify 2- and 3-variable Boolean functions using K-Map", cog: "A",
+          questions: [
+            { type: "MCQ", text: "In a Karnaugh map, adjacent cells differ by how many variable?" },
+            { type: "CRQ", text: "Using a K-map, simplify F(A,B,C) = Σm(0,1,4,5)." },
+            { type: "CRQ", text: "Minimize F(A,B) = A'B' + A'B + AB using a 2-variable K-map." },
+            { type: "ERQ", text: "Use a 3-variable K-map to simplify F(A,B,C) = Σm(1,3,5,7) and draw the resulting circuit." }
+          ]
+        },
+        { code: "1.3.2", text: "Convert algebraic expression to SOP and POS forms", cog: "A",
+          questions: [
+            { type: "MCQ", text: "In Sum of Products (SOP), each product term is called a:" },
+            { type: "CRQ", text: "Convert F = (A+B)(A'+C) to SOP form." },
+            { type: "CRQ", text: "Express F = AB + BC in POS form." },
+            { type: "ERQ", text: "Given F(A,B,C) = Σm(0,2,5,7), write both the SOP and POS canonical forms." }
+          ]
+        },
+        { code: "1.4.1", text: "Explain SDLC and its different phases", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which SDLC phase involves gathering user requirements?" },
+            { type: "MCQ", text: "The SDLC phase after Implementation is typically:" },
+            { type: "CRQ", text: "List and briefly describe four phases of the Software Development Life Cycle." },
+            { type: "ERQ", text: "Explain the SDLC and describe each of its phases with examples from a student management system project." }
+          ]
+        },
+        { code: "1.4.2", text: "Compare Waterfall and Agile models: phases, advantages, and disadvantages", cog: "U",
+          questions: [
+            { type: "MCQ", text: "The Waterfall model is best described as:" },
+            { type: "MCQ", text: "Which development model allows changes to requirements mid-project?" },
+            { type: "CRQ", text: "State two advantages and one disadvantage of the Agile model." },
+            { type: "ERQ", text: "Compare the Waterfall and Agile models in terms of flexibility, testing approach, and suitability for different project types." }
+          ]
+        },
+        { code: "1.5.1", text: "Define network topology", cog: "R",
+          questions: [
+            { type: "MCQ", text: "What does 'network topology' refer to?" },
+            { type: "CRQ", text: "Define network topology in one sentence and state whether it is physical, logical, or both." }
+          ]
+        },
+        { code: "1.5.2", text: "Explain bus, ring, star, tree, mesh, hybrid topologies with diagrams", cog: "U",
+          questions: [
+            { type: "MCQ", text: "In which topology does every device connect to every other device directly?" },
+            { type: "MCQ", text: "Which topology uses a single central cable (backbone)?" },
+            { type: "CRQ", text: "Draw and explain the star topology, including how data travels between devices." },
+            { type: "CRQ", text: "With the help of a diagram, describe the ring topology." },
+            { type: "ERQ", text: "Explain bus, star, and mesh topologies with diagrams. For each, describe a suitable real-world use case." }
+          ]
+        },
+        { code: "1.5.3", text: "Explain advantages, disadvantages, and applications of network topologies", cog: "U",
+          questions: [
+            { type: "MCQ", text: "A disadvantage of the bus topology is:" },
+            { type: "CRQ", text: "State two advantages and two disadvantages of the star topology." },
+            { type: "ERQ", text: "For each of the following topologies: bus, ring, and mesh, describe one advantage, one disadvantage, and a real-world application." }
+          ]
+        },
+        { code: "1.5.4", text: "Compare scalability and reliability of network topologies", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which topology is most reliable because it has multiple data paths?" },
+            { type: "CRQ", text: "Compare the scalability of star topology vs. bus topology." },
+            { type: "ERQ", text: "Evaluate two network topologies in terms of scalability and reliability, supporting your answer with examples." }
+          ]
+        },
+        { code: "1.6.1", text: "Explain cloud computing, its characteristics, and impact on IT infrastructure", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which is NOT a characteristic of cloud computing?" },
+            { type: "CRQ", text: "Explain cloud computing and state two key characteristics." },
+            { type: "ERQ", text: "Describe cloud computing and analyse its impact on traditional IT infrastructure for a business." }
+          ]
+        },
+        { code: "1.6.2", text: "Explain SaaS, PaaS, IaaS service models with examples", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Google Workspace (Gmail, Docs) is an example of which cloud service model?" },
+            { type: "MCQ", text: "IaaS provides which type of resource to users?" },
+            { type: "CRQ", text: "Differentiate between SaaS and PaaS with one example each." },
+            { type: "ERQ", text: "Explain the three cloud service models (SaaS, PaaS, IaaS) with examples and compare which model would be most appropriate for a startup developer." }
+          ]
+        },
+        { code: "1.6.3", text: "Explain public, private, community, and hybrid cloud types", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which type of cloud is shared among organizations with similar concerns?" },
+            { type: "CRQ", text: "Differentiate between a public cloud and a private cloud." },
+            { type: "ERQ", text: "A hospital wants secure data storage but also needs cost-effective public services. Recommend and justify a cloud type." }
+          ]
+        },
+        { code: "1.7.1", text: "Describe cybersecurity and its importance", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Cybersecurity primarily aims to protect:" },
+            { type: "CRQ", text: "Define cybersecurity and explain why it is important in today's digital environment." }
+          ]
+        },
+        { code: "1.7.2", text: "Explain CIA triad: confidentiality, integrity, availability", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Ensuring that only authorized users can view data relates to which CIA principle?" },
+            { type: "MCQ", text: "A database that prevents unauthorized modification ensures which property?" },
+            { type: "CRQ", text: "Explain the three principles of the CIA triad with a brief example for each." },
+            { type: "ERQ", text: "Analyse a scenario where a hacker modifies hospital patient records. Which CIA principles are violated and how?" }
+          ]
+        },
+        { code: "1.8.1", text: "Explain malware, phishing, pharming, DoS, DDoS, ransomware and their impact", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which attack floods a server with traffic to make it unavailable?" },
+            { type: "MCQ", text: "Ransomware attacks typically demand payment in exchange for:" },
+            { type: "CRQ", text: "Differentiate between DoS and DDoS attacks." },
+            { type: "CRQ", text: "Explain phishing and describe its impact on individuals." },
+            { type: "ERQ", text: "Describe any three cybersecurity threats and evaluate their impact on organizations." }
+          ]
+        },
+        { code: "1.8.2", text: "Recommend effective measures to safeguard against cybersecurity threats", cog: "A",
+          questions: [
+            { type: "CRQ", text: "Recommend two measures to protect against phishing attacks." },
+            { type: "ERQ", text: "Evaluate the effectiveness of firewalls, antivirus software, and user training as cybersecurity defences." }
+          ]
+        },
+        { code: "1.8.3", text: "Design a multi-layered security strategy integrating preventive, detective, and corrective measures", cog: "A",
+          questions: [
+            { type: "ERQ", text: "Design a multi-layered security strategy for a company facing DDoS and ransomware threats. Include preventive, detective, and corrective measures." }
+          ]
+        },
+        { code: "1.9.1", text: "Describe encryption and its importance", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Encryption converts readable data into:" },
+            { type: "CRQ", text: "Define encryption and explain why it is used in online transactions." }
+          ]
+        },
+        { code: "1.9.2", text: "Relate the terms cryptography and encryption", cog: "U",
+          questions: [
+            { type: "CRQ", text: "How does encryption relate to the broader field of cryptography?" },
+            { type: "MCQ", text: "Which statement correctly describes the relationship between cryptography and encryption?" }
+          ]
+        },
+        { code: "1.9.3", text: "Compare symmetric and asymmetric encryption: speed, key management, use cases", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which encryption type uses two mathematically linked keys?" },
+            { type: "MCQ", text: "Symmetric encryption is faster than asymmetric because:" },
+            { type: "CRQ", text: "Compare symmetric and asymmetric encryption in terms of key management and speed." },
+            { type: "ERQ", text: "Evaluate symmetric and asymmetric encryption. When would you use each, and why?" }
+          ]
+        },
+        { code: "1.9.4", text: "Explain advantages and disadvantages of symmetric and asymmetric encryption", cog: "U",
+          questions: [
+            { type: "CRQ", text: "State one advantage and one disadvantage of symmetric encryption." },
+            { type: "CRQ", text: "State one advantage and one disadvantage of asymmetric encryption." },
+            { type: "ERQ", text: "A company needs to encrypt messages sent over the internet. Recommend which encryption type to use and justify your answer." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "2", title: "Computational Thinking & Algorithm", grade: "XI",
+      slos: [
+        { code: "2.1.1", text: "Define the term computational thinking", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Computational thinking is best described as:" },
+            { type: "CRQ", text: "Define computational thinking in your own words." }
+          ]
+        },
+        { code: "2.1.2", text: "Describe different steps of computational thinking", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which step of computational thinking involves breaking a problem into smaller parts?" },
+            { type: "CRQ", text: "List and briefly describe the four steps of computational thinking." },
+            { type: "ERQ", text: "Apply the steps of computational thinking to solve the problem: sorting a student grade list." }
+          ]
+        },
+        { code: "2.1.3", text: "Explain computational artefacts: solution design, planning, testing", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which computational artefact involves writing pseudocode or flowcharts?" },
+            { type: "CRQ", text: "Describe three computational artefacts involved in the software development process." },
+            { type: "ERQ", text: "Explain the role of testing computational artefacts with an example." }
+          ]
+        },
+        { code: "2.2.1", text: "Apply algorithms for arithmetic, selection, iteration, sorting, and searching", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which sorting algorithm works by repeatedly swapping adjacent elements?" },
+            { type: "MCQ", text: "Binary search requires the list to be:" },
+            { type: "MCQ", text: "In insertion sort, each element is inserted into its correct position from a:" },
+            { type: "CRQ", text: "Trace the execution of bubble sort on the array [5, 3, 8, 1, 2]." },
+            { type: "CRQ", text: "Write pseudocode for a linear search algorithm to find value X in an array." },
+            { type: "ERQ", text: "Compare bubble sort and insertion sort in terms of time complexity and write pseudocode for both." },
+            { type: "ERQ", text: "Write and trace a binary search algorithm to find element 7 in the sorted array [1, 3, 5, 7, 9, 11]." },
+            { type: "Practical", text: "Write a Python program to implement bubble sort and verify with at least 5 test cases." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "3", title: "Programming Fundamentals (Python)", grade: "XI",
+      slos: [
+        { code: "3.1.1-3.1.3", text: "Define program, programming language; explain low-level and high-level languages; assembler, compiler, interpreter", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which translator converts an entire high-level program at once?" },
+            { type: "MCQ", text: "Assembly language is an example of:" },
+            { type: "MCQ", text: "Which language does a CPU directly execute without translation?" },
+            { type: "CRQ", text: "Differentiate between a compiler and an interpreter." },
+            { type: "CRQ", text: "What is the role of an assembler? Name one language it translates." },
+            { type: "ERQ", text: "Compare low-level and high-level programming languages. Explain with examples why high-level languages are preferred for application development." }
+          ]
+        },
+        { code: "3.1.5-3.1.8", text: "Explain Python language, IDE, comments; write single and multi-line comments", cog: "U",
+          questions: [
+            { type: "MCQ", text: "In Python, multi-line comments are written using:" },
+            { type: "MCQ", text: "What symbol begins a single-line comment in Python?" },
+            { type: "CRQ", text: "Explain the purpose of comments in a Python program. Give an example of each type." },
+            { type: "Practical", text: "Write a Python program that includes both single-line and multi-line comments explaining each section." }
+          ]
+        },
+        { code: "3.2.1-3.2.3", text: "Use turtle graphics: movement, screen, shape, drawing functions", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which turtle function sets the background colour of the screen?" },
+            { type: "MCQ", text: "What does penup() do in turtle graphics?" },
+            { type: "CRQ", text: "Write a Python turtle program to draw a square with side 100." },
+            { type: "Practical", text: "Write a turtle program that draws a coloured hexagon using a loop." }
+          ]
+        },
+        { code: "3.3.1-3.3.3", text: "Describe libraries; install syntax; use datetime module", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which Python command is used to install external libraries?" },
+            { type: "CRQ", text: "Write a Python program to display the current date using the datetime module with format %A %B %Y." },
+            { type: "Practical", text: "Import datetime and print the current day, month, hour, and minute in a formatted string." }
+          ]
+        },
+        { code: "3.4.1-3.4.5", text: "Define data types; local vs global variables; type casting; valid variable names", cog: "U",
+          questions: [
+            { type: "MCQ", text: "What is the data type of the value 3.14 in Python?" },
+            { type: "MCQ", text: "Which of the following is NOT a valid Python variable name?" },
+            { type: "MCQ", text: "What is the result of int('42') in Python?" },
+            { type: "CRQ", text: "Differentiate between local and global variables with a Python example." },
+            { type: "CRQ", text: "Write a Python program that demonstrates implicit and explicit type casting." },
+            { type: "Practical", text: "Create variables of each Python data type (int, float, str, bool) and print their types using type()." }
+          ]
+        },
+        { code: "3.5.1-3.5.4", text: "Use eval(), print(), input() for I/O handling", cog: "A",
+          questions: [
+            { type: "MCQ", text: "What does eval() do when given the string '3 + 4'?" },
+            { type: "MCQ", text: "The input() function in Python always returns a value of type:" },
+            { type: "CRQ", text: "Write a Python program that takes two numbers as input, evaluates their sum using eval(), and prints the result." },
+            { type: "Practical", text: "Write a program that accepts a mathematical expression from the user and evaluates it with eval()." }
+          ]
+        },
+        { code: "3.6.1-3.6.3", text: "Differentiate operator/operand; describe and use arithmetic, bitwise, relational, logical operators", cog: "U",
+          questions: [
+            { type: "MCQ", text: "What is the result of 7 % 3 in Python?" },
+            { type: "MCQ", text: "Which operator performs a bitwise AND in Python?" },
+            { type: "MCQ", text: "What does the expression (5 > 3) and (2 < 1) evaluate to?" },
+            { type: "CRQ", text: "Differentiate between operator and operand with examples from Python." },
+            { type: "CRQ", text: "Write a Python snippet demonstrating the use of comparison and logical operators together." },
+            { type: "Practical", text: "Write a program using all six comparison operators and print the boolean result of each." }
+          ]
+        },
+        { code: "3.7.1-3.7.2", text: "Use if, if-else, elif, nested if, pass statements", cog: "A",
+          questions: [
+            { type: "MCQ", text: "What does the pass statement do in Python?" },
+            { type: "MCQ", text: "In an if-elif-else chain, which block executes if all conditions are False?" },
+            { type: "CRQ", text: "Write a Python program using if-elif-else to categorize a student's grade (A, B, C, F)." },
+            { type: "CRQ", text: "Write a Python program using nested if to check if a number is positive, negative, or zero, and then if positive, whether it is odd or even." },
+            { type: "Practical", text: "Write a utility billing program that calculates charges based on unit ranges using if-elif-else." }
+          ]
+        },
+        { code: "3.8.1-3.8.5", text: "Use for, while, nested loops; break, continue, exit()", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which statement immediately exits a loop in Python?" },
+            { type: "MCQ", text: "What does the continue statement do?" },
+            { type: "MCQ", text: "In a for loop over range(1,6), how many iterations occur?" },
+            { type: "CRQ", text: "Write a Python program using a while loop to print the Fibonacci sequence up to 100." },
+            { type: "CRQ", text: "Write a for loop that prints even numbers from 2 to 20, and use break to stop if the number is divisible by 12." },
+            { type: "ERQ", text: "Using nested loops, write a Python program to print a 5×5 multiplication table." },
+            { type: "Practical", text: "Write a program that reads multiple numbers using a loop and calculates average, max, and min." }
+          ]
+        },
+        { code: "3.9.1-3.9.6", text: "Explain debugging: types of bugs, IDE debugger, breakpoints, print/assert, pdb", cog: "U",
+          questions: [
+            { type: "MCQ", text: "A syntax error in Python occurs when:" },
+            { type: "MCQ", text: "Which type of error in Python causes the program to crash at runtime?" },
+            { type: "MCQ", text: "Breakpoints in an IDE allow the programmer to:" },
+            { type: "CRQ", text: "Differentiate between syntax errors, runtime errors, and logic errors in Python." },
+            { type: "CRQ", text: "Explain how the print() statement can help in debugging a Python program." },
+            { type: "ERQ", text: "Explain the process of debugging a Python program using the pdb module and breakpoints. Provide an example." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "4", title: "Data and Analysis", grade: "XI",
+      slos: [
+        { code: "4.1.1-4.1.2", text: "Define statistics and statistical modelling; explain regression, classification, k-means clustering", cog: "R",
+          questions: [
+            { type: "MCQ", text: "K-means clustering is an example of which type of learning?" },
+            { type: "MCQ", text: "Regression is used to predict:" },
+            { type: "CRQ", text: "Define statistical modelling and state two techniques used in it." },
+            { type: "CRQ", text: "Differentiate between supervised and unsupervised statistical modelling with an example of each." }
+          ]
+        },
+        { code: "4.1.3", text: "Analyse the process of developing a statistical model", cog: "A",
+          questions: [
+            { type: "CRQ", text: "Describe three steps involved in developing a statistical model for data analysis." },
+            { type: "ERQ", text: "Analyse the process of building a statistical model for predicting student exam scores from study hours. Include data collection, model selection, and evaluation." }
+          ]
+        },
+        { code: "4.1.4", text: "Evaluate effectiveness of statistical modelling in healthcare and finance", cog: "A",
+          questions: [
+            { type: "ERQ", text: "Evaluate the effectiveness of classification models in diagnosing diseases in healthcare. Provide specific examples." },
+            { type: "ERQ", text: "Assess the use of regression models in financial forecasting. What are the limitations?" }
+          ]
+        },
+        { code: "4.2.1-4.2.4", text: "Define correlation, causation, population, parameters, random sample; compare observational vs experimental studies", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Correlation between two variables means:" },
+            { type: "MCQ", text: "A random sample is one where:" },
+            { type: "CRQ", text: "Differentiate between correlation and causation with an example." },
+            { type: "CRQ", text: "Compare observational and experimental studies in data science." },
+            { type: "ERQ", text: "Explain the principles of experimental design with a practical example in data science." }
+          ]
+        },
+        { code: "4.3.1-4.3.2", text: "Explain data collection methods; analyse the role of data science in real-world problems", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which data collection method involves controlled questions with fixed responses?" },
+            { type: "CRQ", text: "State two types of data collection methods and give an example of each." },
+            { type: "ERQ", text: "Analyse how data science can be applied to address a real-world problem such as traffic congestion in a city." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "5", title: "Applications of Computer Science", grade: "XI",
+      slos: [
+        { code: "5.1.1-5.1.3", text: "Describe IoT; explain its components (sensors, processors, connectivity, UI); examine IoT's role in manufacturing, agriculture, healthcare", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which IoT component is responsible for gathering physical data from the environment?" },
+            { type: "MCQ", text: "Which sector uses IoT for precision farming and soil monitoring?" },
+            { type: "CRQ", text: "Describe the four main components of an IoT system." },
+            { type: "ERQ", text: "Examine how IoT improves operations in healthcare. Provide at least two specific examples." }
+          ]
+        },
+        { code: "5.2.1-5.2.5", text: "Describe IoT key technologies: BDA, communication protocols, embedded systems, WSN", cog: "R",
+          questions: [
+            { type: "MCQ", text: "WSN stands for:" },
+            { type: "CRQ", text: "Define Big Data Analytics and state two fields where it is applied." },
+            { type: "CRQ", text: "Explain the role of embedded systems in IoT devices." },
+            { type: "ERQ", text: "Describe how Wireless Sensor Networks (WSNs) enable IoT applications in smart agriculture." }
+          ]
+        },
+        { code: "5.3.1-5.3.4", text: "Define blockchain; explain public, private, permissioned, consortium networks; blockchain-IoT integration", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which type of blockchain network is open to everyone?" },
+            { type: "MCQ", text: "Blockchain technology ensures data integrity through:" },
+            { type: "CRQ", text: "Define blockchain technology and list two technologies that enable it." },
+            { type: "CRQ", text: "Differentiate between a public and a private blockchain network." },
+            { type: "ERQ", text: "Explain how integrating blockchain with IoT can enhance security and transparency in supply chain management." }
+          ]
+        },
+        { code: "5.4.1-5.4.2", text: "Describe AI stakeholders; evaluate benefits and challenges of AI in healthcare, education, and industry", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which group of people are primary stakeholders in an AI system?" },
+            { type: "CRQ", text: "Identify three stakeholders involved in an AI system and their roles." },
+            { type: "ERQ", text: "Evaluate both the benefits and challenges of Artificial Intelligence in healthcare, providing specific examples of each." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "6", title: "Impacts of Computing", grade: "XI",
+      slos: [
+        { code: "6.1.1-6.1.4", text: "Define books, articles, websites as information sources; reliable vs unreliable; search engines; responsible social media use", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which of the following is generally considered the most reliable information source?" },
+            { type: "CRQ", text: "Differentiate between a reliable and an unreliable information source. Give one example of each." },
+            { type: "ERQ", text: "Discuss how social media platforms can be both a source of reliable information and a vehicle for misinformation." }
+          ]
+        },
+        { code: "6.2.1-6.2.4", text: "Define privacy and security; protect personal info online; evaluate impact of data breaches", cog: "A",
+          questions: [
+            { type: "MCQ", text: "A data breach primarily violates which user right?" },
+            { type: "CRQ", text: "Suggest two strategies for safeguarding personal data when using online platforms." },
+            { type: "ERQ", text: "Evaluate the impact of a large-scale data breach on individuals, organizations, and society." }
+          ]
+        },
+        { code: "6.3.1-6.3.3", text: "Explain ethical use of information; consequences of misinformation; real-world ethical dilemmas", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Copyright infringement is an example of violation of:" },
+            { type: "CRQ", text: "Explain what is meant by the ethical use of intellectual property." },
+            { type: "ERQ", text: "Discuss a real-world case where unethical use of information caused harm. What were the consequences for individuals and society?" }
+          ]
+        },
+        { code: "6.4.1-6.4.3", text: "Define connectivity; describe devices, networks, protocols, internet; communication technologies", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which protocol enables web communication over the internet?" },
+            { type: "CRQ", text: "Define connectivity in computing and describe three components involved." },
+            { type: "CRQ", text: "Compare email and video conferencing as communication technologies enabled by computing." }
+          ]
+        },
+        { code: "6.5.1-6.5.3", text: "Explain green computing; analyse environmental impacts of cloud computing and smart devices; data centre impact", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Green computing primarily aims to reduce:" },
+            { type: "CRQ", text: "Explain green computing and state two practices associated with it." },
+            { type: "ERQ", text: "Analyse the environmental impact of data centres, considering energy consumption and e-waste. Suggest two mitigation strategies." }
+          ]
+        },
+        { code: "6.6.1-6.7.1", text: "Analyse cultural impacts of connectivity; preservation vs loss of local culture; human behavioural impacts", cog: "A",
+          questions: [
+            { type: "ERQ", text: "Discuss how global digital connectivity can both preserve and erode local cultures. Provide examples." },
+            { type: "ERQ", text: "Evaluate the positive and negative impacts of digital connectivity on employment, social behaviour, and work-life balance." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "7", title: "Digital Literacy", grade: "XI",
+      slos: [
+        { code: "7.1.1-7.1.2", text: "Describe digital literacy and its importance in academic and everyday life", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Digital literacy includes the ability to:" },
+            { type: "CRQ", text: "Define digital literacy and state two ways it is important in academic life." }
+          ]
+        },
+        { code: "7.2.1-7.2.2", text: "Describe advanced search techniques; compare basic vs advanced searches", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Using quotation marks in a search engine query does which of the following?" },
+            { type: "CRQ", text: "Differentiate between basic and advanced search techniques with one example each." }
+          ]
+        },
+        { code: "7.3.1-7.3.4", text: "Describe qualitative and quantitative data collection; prototypes; design interview-based plan; create surveys", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which data collection method uses numerical data and statistical analysis?" },
+            { type: "CRQ", text: "Differentiate between qualitative and quantitative data collection methods." },
+            { type: "ERQ", text: "Design a qualitative data collection plan to study student satisfaction with online learning. Include research questions and an interview guide." },
+            { type: "ERQ", text: "Create a quantitative survey to measure student screen time habits. Include five clear, unbiased questions and justify your choice of survey platform." }
+          ]
+        }
+      ]
+    },
+
+    // GRADE XII
+    {
+      num: "8", title: "Computing Systems (Usability & HCI)", grade: "XII",
+      slos: [
+        { code: "8.1.1-8.1.3", text: "Describe digital device usability, security features, and accessibility features for disabled users", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which of the following is an accessibility feature that aids visually impaired users?" },
+            { type: "CRQ", text: "Describe two security features found on modern digital devices." },
+            { type: "CRQ", text: "Explain how accessibility features support users with physical disabilities." }
+          ]
+        },
+        { code: "8.2.1-8.2.2", text: "Describe HCI; analyse its influence on user efficiency and task effectiveness", cog: "A",
+          questions: [
+            { type: "MCQ", text: "HCI (Human-Computer Interaction) is concerned with:" },
+            { type: "CRQ", text: "Define HCI and explain why it is important in software design." },
+            { type: "ERQ", text: "Analyse how good HCI design improves user efficiency. Provide two specific examples from real applications." }
+          ]
+        },
+        { code: "8.3.1-8.3.2", text: "Describe HCI design considerations; analyse trade-offs: security, user-friendliness, cost-effectiveness", cog: "A",
+          questions: [
+            { type: "ERQ", text: "Analyse the trade-offs between security and user-friendliness in HCI design with real-world examples." },
+            { type: "ERQ", text: "A company wants to redesign its banking app. Describe the HCI design considerations it should address." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "9", title: "Computational Thinking & Algorithm (Grade XII)", grade: "XII",
+      slos: [
+        { code: "9.1.1-9.1.2", text: "Define data structure; describe list, array, tree, stack, queue", cog: "R",
+          questions: [
+            { type: "MCQ", text: "Which data structure operates on a Last-In-First-Out (LIFO) basis?" },
+            { type: "MCQ", text: "A queue operates on which principle?" },
+            { type: "CRQ", text: "Define data structure and describe any two types with a diagram." },
+            { type: "CRQ", text: "Differentiate between a stack and a queue with a real-world example of each." }
+          ]
+        },
+        { code: "9.2.1-9.2.4", text: "Array traversal; enqueue/dequeue; push/pop; tree traversal (inorder, preorder, postorder) and binary search", cog: "U",
+          questions: [
+            { type: "MCQ", text: "In a binary tree, inorder traversal visits nodes in which order?" },
+            { type: "MCQ", text: "Which operation adds an element to a queue?" },
+            { type: "MCQ", text: "A pop operation on an empty stack results in:" },
+            { type: "CRQ", text: "Trace the inorder, preorder, and postorder traversal of a binary tree with nodes: A(root), B(left), C(right)." },
+            { type: "CRQ", text: "Explain push and pop operations on a stack with an example." },
+            { type: "ERQ", text: "Describe all three tree traversal methods (inorder, preorder, postorder) and apply each to a given tree." }
+          ]
+        },
+        { code: "9.3.1-9.3.5", text: "Applications of tree data structures; binary search; apply traversal and binary search algorithms", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Binary search trees are used because they allow search operations in approximately:" },
+            { type: "CRQ", text: "Explain two real-world applications of tree data structures." },
+            { type: "ERQ", text: "Apply a binary search tree to represent and search through a sorted list of names. Show all steps." },
+            { type: "ERQ", text: "Illustrate how tree traversal techniques can be used to retrieve data in a file system hierarchy." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "10", title: "Programming Fundamentals Python (Grade XII)", grade: "XII",
+      slos: [
+        { code: "10.1.1-10.1.6", text: "Describe predefined/user-defined functions; function signature; function declaration, definition, call; local vs global; write functions", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which keyword is used to define a function in Python?" },
+            { type: "MCQ", text: "What is the purpose of the return statement in a function?" },
+            { type: "MCQ", text: "A variable defined inside a function has which scope?" },
+            { type: "CRQ", text: "Differentiate between a predefined function and a user-defined function with examples." },
+            { type: "CRQ", text: "Write a user-defined Python function to calculate the factorial of a number." },
+            { type: "ERQ", text: "Explain the components of a function (declaration, definition, call) and write a program with a user-defined function to calculate the area of a circle." },
+            { type: "Practical", text: "Write a Python program with a user-defined function that accepts two numbers and returns the larger one." }
+          ]
+        },
+        { code: "10.2.1-10.2.4", text: "Default arguments; return statement; passing arguments by constant, value, reference", cog: "A",
+          questions: [
+            { type: "MCQ", text: "A default argument in Python is used when:" },
+            { type: "CRQ", text: "Demonstrate the use of default arguments in a Python function with an example." },
+            { type: "CRQ", text: "Write a Python function that returns the sum and product of two numbers using the return statement." },
+            { type: "Practical", text: "Write a program that passes arguments by value and by reference. Demonstrate the difference in output." }
+          ]
+        },
+        { code: "10.3.1-10.3.4", text: "OOP vs functional programming; class and object; write classes with data members and member functions", cog: "U",
+          questions: [
+            { type: "MCQ", text: "In OOP, an object is best described as:" },
+            { type: "MCQ", text: "Which OOP concept bundles data and functions into a single unit?" },
+            { type: "CRQ", text: "Compare Object-Oriented Programming with functional programming." },
+            { type: "CRQ", text: "Define class and object. Write a Python class 'Car' with attributes and a method." },
+            { type: "ERQ", text: "Write a complete Python program with a class 'Student' containing data members (name, marks) and member functions to input data and display a grade report." },
+            { type: "Practical", text: "Create a Python class 'BankAccount' with deposit, withdraw, and balance-check methods. Test with objects." }
+          ]
+        },
+        { code: "10.4.1-10.4.4", text: "Private, public, protected access modifiers; name mangling; class programs demonstrating access", cog: "A",
+          questions: [
+            { type: "MCQ", text: "In Python, a private attribute is denoted by:" },
+            { type: "MCQ", text: "Name mangling in Python converts __attr to:" },
+            { type: "CRQ", text: "Differentiate between public and private access specifiers in OOP with code examples." },
+            { type: "Practical", text: "Write a Python class with both public and private members. Demonstrate name mangling to access private members." }
+          ]
+        },
+        { code: "10.5.1-10.5.9", text: "Inheritance types and access specifiers; encapsulation; polymorphism; constructors, destructors; overloading vs overriding", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which type of inheritance does Python support that Java does not natively?" },
+            { type: "MCQ", text: "Which OOP pillar hides internal implementation details?" },
+            { type: "MCQ", text: "Overriding occurs when a subclass provides a specific implementation for a method that is already defined in its:" },
+            { type: "MCQ", text: "Which method in Python is a constructor?" },
+            { type: "CRQ", text: "Explain encapsulation with a Python code example." },
+            { type: "CRQ", text: "Differentiate between method overloading and method overriding in OOP." },
+            { type: "ERQ", text: "Write a Python program demonstrating inheritance where a 'Vehicle' base class is extended by 'Car' and 'Bike' derived classes, each with overridden methods." },
+            { type: "Practical", text: "Write a Python program demonstrating polymorphism using method overriding with a shape hierarchy (Shape → Circle, Rectangle)." }
+          ]
+        },
+        { code: "10.6.1-10.6.5", text: "Lists: concept, ordered storage, 1D operations, search, highest/lowest/average", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which method removes the last element from a Python list?" },
+            { type: "MCQ", text: "What is the index of the first element in a Python list?" },
+            { type: "CRQ", text: "Write a Python program to create a list of 5 integers and find the maximum and minimum." },
+            { type: "CRQ", text: "Demonstrate adding, modifying, and removing items in a Python list." },
+            { type: "ERQ", text: "Write a Python program that stores marks of 10 students in a list, then finds and prints the highest, lowest, and average marks." },
+            { type: "Practical", text: "Write a program using a for loop to fill a list with user inputs and search for a specific value." }
+          ]
+        },
+        { code: "10.7.1-10.7.3", text: "Dictionaries: description, construct/retrieve, find by key", cog: "A",
+          questions: [
+            { type: "MCQ", text: "In Python, dictionary keys must be:" },
+            { type: "MCQ", text: "Which method retrieves a value from a dictionary without raising an error if the key is missing?" },
+            { type: "CRQ", text: "Write a Python program to create a student dictionary with name, age, and grade, and retrieve the grade." },
+            { type: "Practical", text: "Build a phone book dictionary program that allows adding, searching, and deleting contacts." }
+          ]
+        },
+        { code: "10.8.1-10.8.3", text: "File handling: create, read, write, append; file operations programs", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which file mode opens a file for appending data in Python?" },
+            { type: "MCQ", text: "Which function is used to read all lines of a file into a list in Python?" },
+            { type: "CRQ", text: "Write a Python program to create a file, write three lines, and then read them back." },
+            { type: "ERQ", text: "Write a Python program that performs all four file operations: create, write, append, and read. Include error handling." },
+            { type: "Practical", text: "Create a student records program that saves data to a file and reads it back on request." }
+          ]
+        },
+        { code: "10.9.1-10.9.5", text: "Database concepts; DBMS vs RDBMS; MS SQL; primary, foreign, candidate, alternate, secondary keys; construct database", cog: "U",
+          questions: [
+            { type: "MCQ", text: "A primary key uniquely identifies each record in a table and cannot be:" },
+            { type: "MCQ", text: "A foreign key in a table references the primary key of:" },
+            { type: "MCQ", text: "Which software is an example of an RDBMS?" },
+            { type: "CRQ", text: "Differentiate between a primary key and a foreign key with examples." },
+            { type: "CRQ", text: "Explain the difference between DBMS and RDBMS." },
+            { type: "ERQ", text: "Design a simple MS SQL database schema for a school with tables for Students and Courses. Define all relevant keys." },
+            { type: "Practical", text: "Using MS SQL, construct a database with two related tables and insert at least 5 records in each." }
+          ]
+        },
+        { code: "10.10.1-10.10.2", text: "Data normalisation: importance, 1NF, 2NF, 3NF", cog: "U",
+          questions: [
+            { type: "MCQ", text: "A table is in 1NF if it has no:" },
+            { type: "MCQ", text: "2NF requires that all non-key attributes are fully dependent on:" },
+            { type: "CRQ", text: "Define data normalisation and explain why it is important in database design." },
+            { type: "ERQ", text: "Given an unnormalized table of student course enrollments, normalize it to 3NF, showing each stage." }
+          ]
+        },
+        { code: "10.11.1-10.11.4", text: "SQL: DML, DDL, DCL, TCL, DQL; SELECT with WHERE and ORDER BY", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which SQL statement retrieves data from a table?" },
+            { type: "MCQ", text: "Which SQL category includes INSERT, UPDATE, and DELETE?" },
+            { type: "MCQ", text: "The ORDER BY clause in SQL sorts results by default in:" },
+            { type: "CRQ", text: "Write an SQL SELECT query to retrieve all students with marks > 70, sorted by name in ascending order." },
+            { type: "CRQ", text: "Explain the purpose of DDL and give two examples of DDL commands." },
+            { type: "ERQ", text: "Describe the five categories of SQL statements (DDL, DML, DCL, TCL, DQL) with one example command each." },
+            { type: "Practical", text: "Write SQL queries to: (a) create a Students table, (b) insert 3 rows, (c) SELECT students where grade = 'A' ordered by name." }
+          ]
+        },
+        { code: "10.12.1-10.12.2", text: "Connecting database with Python; write connection program", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Which Python library is commonly used to connect to MS SQL Server?" },
+            { type: "CRQ", text: "Write a Python program to connect to a SQL database and execute a SELECT query." },
+            { type: "Practical", text: "Write a Python script that connects to MS SQL, retrieves all records from a Students table, and prints them." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "11", title: "Data and Analysis (Grade XII)", grade: "XII",
+      slos: [
+        { code: "11.1.1-11.1.4", text: "Define ML; ML vs rule-based algorithms; feature engineering, train-test split, model assessment; regression, clustering, classification algorithms", cog: "R",
+          questions: [
+            { type: "MCQ", text: "What is the main advantage of Machine Learning over rule-based algorithms?" },
+            { type: "MCQ", text: "Feature engineering involves:" },
+            { type: "MCQ", text: "In a train-test split of 80/20, what percentage of data is used for training?" },
+            { type: "CRQ", text: "Differentiate between Machine Learning and rule-based algorithms with an example." },
+            { type: "CRQ", text: "Explain feature engineering, train-test split, and model assessment in ML model building." },
+            { type: "ERQ", text: "Explain regression, clustering, and classification as ML algorithms with a real-world use case for each." }
+          ]
+        },
+        { code: "11.2.1-11.2.4", text: "Hypothesis and hypothesis testing; null vs alternative hypothesis; P-value; f-test, chi-square, ANOVA", cog: "U",
+          questions: [
+            { type: "MCQ", text: "The null hypothesis states that:" },
+            { type: "MCQ", text: "A P-value less than 0.05 typically indicates:" },
+            { type: "MCQ", text: "ANOVA is used to compare means across how many groups?" },
+            { type: "CRQ", text: "Differentiate between the null hypothesis and the alternative hypothesis." },
+            { type: "CRQ", text: "Explain the P-value and its significance in hypothesis testing." },
+            { type: "ERQ", text: "Describe the chi-square test and explain when it is used. Provide an example." }
+          ]
+        },
+        { code: "11.3.1", text: "Explain performance metrics: accuracy, precision, recall, F1, rand index, ROC, RMSE", cog: "U",
+          questions: [
+            { type: "MCQ", text: "Which metric measures the proportion of correctly predicted positive instances out of all actual positives?" },
+            { type: "MCQ", text: "RMSE is used to evaluate which type of ML model?" },
+            { type: "MCQ", text: "The ROC curve plots true positive rate against:" },
+            { type: "CRQ", text: "Differentiate between precision and recall with a medical diagnosis example." },
+            { type: "ERQ", text: "Explain five model performance metrics and describe a scenario where each would be the most appropriate to use." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "12", title: "Applications of CS (Grade XII)", grade: "XII",
+      slos: [
+        { code: "12.1.1-12.1.3", text: "IoT applications in Pakistan: smart homes, agriculture, smart cities, healthcare; cloud computing for data storage; evaluate benefits and challenges", cog: "R",
+          questions: [
+            { type: "MCQ", text: "IoT in smart cities is primarily used for:" },
+            { type: "CRQ", text: "Describe two applications of IoT in Pakistan's agriculture sector." },
+            { type: "ERQ", text: "Evaluate the benefits and challenges of cloud computing for data management in Pakistan's healthcare sector." }
+          ]
+        },
+        { code: "12.2.1-12.2.2", text: "Relationship between deep learning and neural networks; applications in healthcare, finance, autonomous vehicles", cog: "A",
+          questions: [
+            { type: "MCQ", text: "Deep learning is a subset of which field?" },
+            { type: "CRQ", text: "Explain the relationship between deep learning networks and neural networks." },
+            { type: "ERQ", text: "Analyse the applications of deep learning in autonomous vehicles and healthcare. What are the potential risks?" }
+          ]
+        }
+      ]
+    },
+    {
+      num: "13", title: "Impacts of Computing (Grade XII)", grade: "XII",
+      slos: [
+        { code: "13.1.1-13.1.3", text: "Privacy and security; DoS, DDoS, ransomware, spyware, viruses, phishing, DNS spoofing, waterhole, fake WAP, eavesdropping; security methods: passwords, 2FA, antivirus, logs, firewall, IDS, encryption", cog: "R",
+          questions: [
+            { type: "MCQ", text: "A waterhole attack targets:" },
+            { type: "MCQ", text: "Two-Factor Authentication (2FA) improves security by:" },
+            { type: "MCQ", text: "Which security method monitors network traffic for suspicious activity?" },
+            { type: "CRQ", text: "Differentiate between DNS spoofing and a fake WAP attack." },
+            { type: "CRQ", text: "Explain two-factor authentication and describe how it reduces the risk of unauthorized access." },
+            { type: "ERQ", text: "Describe five cybersecurity threats and for each, recommend an appropriate security measure." }
+          ]
+        },
+        { code: "13.2.1-13.2.2", text: "SSL, TLS, IPsec, SSH, HTTP, HTTPS, WPA/WPA2/WPA3, FTPS, SNMP; HTTP vs HTTPS", cog: "U",
+          questions: [
+            { type: "MCQ", text: "HTTPS uses which protocol to encrypt web communication?" },
+            { type: "MCQ", text: "SSH is primarily used for:" },
+            { type: "MCQ", text: "WPA3 is an improvement over WPA2 because:" },
+            { type: "CRQ", text: "Differentiate between HTTP and HTTPS. Why should websites use HTTPS?" },
+            { type: "ERQ", text: "Explain SSL/TLS and describe the role they play in securing internet communication." }
+          ]
+        },
+        { code: "13.3.1-13.3.3", text: "Define cryptography; differentiate from cybersecurity; explain plain, caesar, shift, substitution, transposition, stream, block ciphers", cog: "R",
+          questions: [
+            { type: "MCQ", text: "The Caesar cipher shifts each letter by a fixed number of positions. It is an example of a:" },
+            { type: "MCQ", text: "A block cipher encrypts data:" },
+            { type: "MCQ", text: "Cryptography differs from cybersecurity in that cryptography specifically deals with:" },
+            { type: "CRQ", text: "Define cryptography and differentiate it from cybersecurity." },
+            { type: "CRQ", text: "Explain the Caesar cipher and encode the word 'HELLO' with a shift of 3." },
+            { type: "ERQ", text: "Explain the following ciphers with examples: substitution, transposition, and block cipher. Compare their strengths and weaknesses." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "14", title: "Digital Literacy (Grade XII)", grade: "XII",
+      slos: [
+        { code: "14.1.1-14.1.4", text: "Define research questions; describe case studies; analyse digital tools for communicating results; evaluate advanced search techniques", cog: "A",
+          questions: [
+            { type: "MCQ", text: "A well-defined research question should be:" },
+            { type: "CRQ", text: "Define a research question and explain how it guides data collection in a case study." },
+            { type: "ERQ", text: "Evaluate the effectiveness of advanced search techniques (Boolean operators, filters) in locating research sources compared to basic keyword searches." }
+          ]
+        },
+        { code: "14.2.1", text: "Design a data collection plan to answer a research question using digital tools (FA)", cog: "A",
+          questions: [
+            { type: "ERQ", text: "Design a data collection plan to investigate how social media affects academic performance. Specify your research question, methodology, tools, and expected outcomes." }
+          ]
+        }
+      ]
+    },
+    {
+      num: "15", title: "Entrepreneurship in the Digital Age", grade: "XII",
+      slos: [
+        { code: "15.1.1-15.1.7", text: "Define MVP; key characteristics; MVP vs prototype; riskiest assumption; apply MVP principles; analyse MVP design and case studies", cog: "A",
+          questions: [
+            { type: "MCQ", text: "MVP stands for:" },
+            { type: "MCQ", text: "The primary purpose of an MVP is to:" },
+            { type: "MCQ", text: "The 'riskiest assumption' in a business model refers to:" },
+            { type: "CRQ", text: "Differentiate between an MVP and a prototype." },
+            { type: "CRQ", text: "Explain two key characteristics of a successful MVP." },
+            { type: "ERQ", text: "Analyse the MVP development process for a student-designed mobile app. Include how you would test the riskiest assumption." },
+            { type: "ERQ", text: "Study a real-world MVP case (e.g. Airbnb, Dropbox). Analyse what made their MVP successful." }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+let activeTopic = null;
+let cogFilter = 'all';
+let typeFilter = 'all';
+
+function buildNav() {
+  const xiNav = document.getElementById('nav-xi');
+  const xiiNav = document.getElementById('nav-xii');
+  let totalSlos = 0, totalQs = 0;
+
+  DB.topics.forEach(t => {
+    t.slos.forEach(s => { totalSlos++; totalQs += s.questions.length; });
+    const div = document.createElement('div');
+    div.className = 'topic-item';
+    div.dataset.num = t.num;
+    div.innerHTML = `<span class="topic-num">${t.num}.</span><span class="topic-name">${t.title}</span>`;
+    div.onclick = () => loadTopic(t.num);
+    if (t.grade === 'XI') xiNav.appendChild(div);
+    else xiiNav.appendChild(div);
+  });
+
+  document.getElementById('total-slos').textContent = totalSlos;
+  document.getElementById('total-qs').textContent = totalQs;
+}
+
+function loadTopic(num) {
+  const topic = DB.topics.find(t => t.num === num);
+  if (!topic) return;
+  activeTopic = num;
+
+  document.querySelectorAll('.topic-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.num === num);
+  });
+
+  document.getElementById('welcome-screen').classList.add('hidden');
+  const view = document.getElementById('topic-view');
+  view.classList.remove('hidden');
+
+  renderTopic(topic, view);
+}
+
+function renderTopic(topic, container) {
+  const gradeColor = topic.grade === 'XI' ? 'var(--teal)' : 'var(--coral)';
+  const qCount = topic.slos.reduce((a, s) => a + s.questions.length, 0);
+
+  let html = `
+    <div class="topic-banner">
+      <div>
+        <div class="tn">Topic ${topic.num} &nbsp;·&nbsp; Grade ${topic.grade}</div>
+        <h2>${topic.title}</h2>
+      </div>
+      <div class="topic-meta">
+        <span class="meta-badge" style="color:${gradeColor}; border-color:${gradeColor}33;">Grade ${topic.grade}</span>
+        <span class="meta-badge">${topic.slos.length} SLOs</span>
+        <span class="meta-badge">${qCount} Questions</span>
+      </div>
+    </div>`;
+
+  topic.slos.forEach(slo => {
+    const filteredQs = slo.questions.filter(q => {
+      const cogOk = cogFilter === 'all' || slo.cog === cogFilter;
+      const typeOk = typeFilter === 'all' || q.type === typeFilter;
+      return cogOk && typeOk;
+    });
+    if (!filteredQs.length) return;
+
+    html += `<div class="slo-group">
+      <div class="slo-header">
+        <span class="slo-code">${slo.code}</span>
+        <span class="slo-text">${slo.text}</span>
+        <span class="slo-cog cog-${slo.cog}">${slo.cog === 'R' ? 'Remember' : slo.cog === 'U' ? 'Understand' : 'Apply+'}</span>
+      </div>
+      <div class="q-grid">`;
+
+    filteredQs.forEach(q => {
+      const typeClass = { MCQ: 'qt-mcq', CRQ: 'qt-crq', ERQ: 'qt-erq', Practical: 'qt-prac' }[q.type];
+      html += `<div class="q-card">
+        <span class="q-type ${typeClass}">${q.type}</span>
+        <div class="q-text">${q.text}</div>
+        ${q.hint ? `<div class="q-hint">Hint: ${q.hint}</div>` : ''}
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+  container.scrollTop = 0;
+}
+
+function setCogFilter(val) {
+  cogFilter = val;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    if (['all','R','U','A'].includes(b.textContent.split(' ')[0]) || b.textContent === 'All') {
+      b.classList.remove('active');
+    }
+  });
+  event.target.classList.add('active');
+  if (activeTopic) loadTopic(activeTopic);
+}
+
+function setTypeFilter(val) {
+  typeFilter = val;
+  event.target.classList.add('active');
+  if (activeTopic) loadTopic(activeTopic);
+}
+
+// Properly scope filter button toggling
+document.querySelectorAll && document.addEventListener('DOMContentLoaded', () => {});
+
+function setCogFilter(val) {
+  cogFilter = val;
+  document.querySelectorAll('.filter-row').forEach((row, i) => {
+    if (i === 0) {
+      row.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      row.querySelectorAll('.filter-btn').forEach(b => {
+        if ((val === 'all' && (b.textContent.trim() === 'All')) ||
+            (val === 'R' && b.textContent.includes('Remember')) ||
+            (val === 'U' && b.textContent.includes('Understand')) ||
+            (val === 'A' && b.textContent.includes('Apply'))) {
+          b.classList.add('active');
+        }
+      });
+    }
+  });
+  if (activeTopic) loadTopic(activeTopic);
+}
+
+function setTypeFilter(val) {
+  typeFilter = val;
+  document.querySelectorAll('.filter-row').forEach((row, i) => {
+    if (i === 1) {
+      row.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      row.querySelectorAll('.filter-btn').forEach(b => {
+        if ((val === 'all' && b.textContent.trim() === 'All') ||
+            b.textContent.trim() === val) {
+          b.classList.add('active');
+        }
+      });
+    }
+  });
+  if (activeTopic) loadTopic(activeTopic);
+}
+
+buildNav();
+</script>
+</body>
+</html>
